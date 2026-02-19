@@ -14,6 +14,18 @@ npm run dev
 # open http://localhost:3000
 ```
 
+## One-liner overview
+It’s a Movement mainnet pledge board:
+- Live: https://movement-pledge-frontend.vercel.app
+- Contract: `0x04000e451b6334e928225593f8e88b18525c3b2e0157c489a776eca3df98f5d9::pledge_board`
+
+How it works:
+1. Connect your wallet.
+2. Enter a pledge message and submit. The contract stores it under your address via `pledge`.
+3. The UI calls `pledge_count` and `pledge_at` to list all pledges you’ve stored on-chain.
+
+It’s a minimal on-chain message board tied to each user’s address, demonstrating contract + frontend interaction on Movement mainnet.
+
 ## How it works
 - `components/pledge-board.tsx`: calls Move views (`pledge_count`, `pledge_at`) and submits `pledge` entry
 - `app/page.tsx`: shows pledge board when wallet is connected

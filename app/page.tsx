@@ -5,6 +5,7 @@ import { Header } from "@/components/header";
 import { WalletDemoContent } from "@/components/wallet-demo-content";
 import { WalletSelectionModal } from "@/components/wallet-selection-modal";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
+import { PledgeBoard } from "@/components/pledge-board";
 
 export default function Home() {
   const { 
@@ -18,7 +19,10 @@ export default function Home() {
       
       <main className={`flex-1 container mx-auto px-4 ${connected ? "py-8" : "flex items-center justify-center"}`}>
         {connected && account?.address ? (
-          <WalletDemoContent />
+          <div className="space-y-6">
+            <WalletDemoContent />
+            <PledgeBoard />
+          </div>
         ) : (
           <div className="max-w-2xl mx-auto text-center space-y-8">
             <div className="space-y-4">

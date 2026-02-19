@@ -26,28 +26,17 @@ export function PledgeBoard() {
     setLoading(true);
     setError(null);
     try {
-      const [countRaw] = await client.view({
-        payload: {
-          function: `${MODULE}::pledge_count`,
-          functionArguments: [account.address],
-          typeArguments: [],
-        },
+      const res = await client.getAccountResource<{ pledges: string[] }>({
+        accountAddress: account.address,
+        resourceType: `${MODULE}::Board`,
       });
-      const count = Number(countRaw || 0);
-      const items: string[] = [];
-      for (let i = 0; i < count; i++) {
-        const [msg] = await client.view({
-          payload: {
-            function: `${MODULE}::pledge_at`,
-            functionArguments: [account.address, i],
-            typeArguments: [],
-          },
-        });
-        items.push(msg as string);
-      }
-      setPledges(items);
+      setPledges(res?.data?.pledges || []);
     } catch (e: any) {
-      setError(e?.message || "Failed to load pledges");
+      if (e?.status === 404) {
+        setPledges([]);
+      } else {
+        setError(e?.message || "Failed to load pledges");
+      }
     } finally {
       setLoading(false);
     }
